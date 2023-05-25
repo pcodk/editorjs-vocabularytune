@@ -2,8 +2,8 @@
   "name": "editorjs-vocabularytune",
   "version": "0.1.0",
   "description": "Autocomplete for vocabulary Inline Tool for EditorJS",
-  "main": "dist/link-autocomplete.js",
-  "repository": "https://github.com/editor-js/link-autocomplete.git",
+  "main": "dist/vocabulary-autocomplete.js",
+  "repository": "https://github.com/pcodk/editorjs-vocabularytune",
   "author": "CodeX <team@codex.so>",
   "license": "MIT",
   "scripts": {

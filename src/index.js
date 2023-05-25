@@ -51,9 +51,9 @@ const NavDirection = {
 };
 
 /**
- * Link Autocomplete Tool for EditorJS
+ * Vocabulary Autocomplete Tool for EditorJS
  */
-export default class LinkAutocomplete {
+export default class VocabularyAutocomplete {
   /**
    * Specifies Tool as Inline Toolbar Tool
    *
@@ -71,7 +71,7 @@ export default class LinkAutocomplete {
    */
   static get sanitize() {
     return {
-      a: true,
+      span: true,
     };
   }
 
@@ -81,7 +81,7 @@ export default class LinkAutocomplete {
    * @returns {string}
    */
   static get title() {
-    return 'Link Autocomplete';
+    return 'Vocabulary Autocomplete';
   }
 
   /**
@@ -90,7 +90,7 @@ export default class LinkAutocomplete {
    * @returns {string}
    */
   get shortcut() {
-    return 'CMD+K';
+    return 'CMD+G';
   }
 
   /**
@@ -100,28 +100,28 @@ export default class LinkAutocomplete {
    */
   static get CSS() {
     return {
-      iconWrapper: 'ce-link-autocomplete__icon-wrapper',
+      iconWrapper: 'ce-vocabulary-autocomplete__icon-wrapper',
 
-      hidden: 'ce-link-autocomplete__hidden',
+      hidden: 'ce-vocabulary-autocomplete__hidden',
 
-      actionsWrapper: 'ce-link-autocomplete__actions-wrapper',
+      actionsWrapper: 'ce-vocabulary-autocomplete__actions-wrapper',
 
-      field: 'ce-link-autocomplete__field',
-      fieldLoading: 'ce-link-autocomplete__field--loading',
-      fieldInput: 'ce-link-autocomplete__field-input',
+      field: 'ce-vocabulary-autocomplete__field',
+      fieldLoading: 'ce-vocabulary-autocomplete__field--loading',
+      fieldInput: 'ce-vocabulary-autocomplete__field-input',
 
-      foundItems: 'ce-link-autocomplete__items',
+      foundItems: 'ce-vocabulary-autocomplete__items',
 
-      searchItem: 'ce-link-autocomplete__search-item',
-      searchItemSelected: 'ce-link-autocomplete__search-item--selected',
-      searchItemName: 'ce-link-autocomplete__search-item-name',
-      searchItemDescription: 'ce-link-autocomplete__search-item-description',
+      searchItem: 'ce-vocabulary-autocomplete__search-item',
+      searchItemSelected: 'ce-vocabulary-autocomplete__search-item--selected',
+      searchItemName: 'ce-vocabulary-autocomplete__search-item-name',
+      searchItemDescription: 'ce-vocabulary-autocomplete__search-item-description',
 
-      linkDataWrapper: 'ce-link-autocomplete__link-data-wrapper',
-      linkDataTitleWrapper: 'ce-link-autocomplete__link-data-title-wrapper',
-      linkDataName: 'ce-link-autocomplete__link-data-name',
-      linkDataDescription: 'ce-link-autocomplete__link-data-description',
-      linkDataURL: 'ce-link-autocomplete__link-data-url',
+      linkDataWrapper: 'ce-vocabulary-autocomplete__link-data-wrapper',
+      linkDataTitleWrapper: 'ce-vocabulary-autocomplete__link-data-title-wrapper',
+      linkDataName: 'ce-vocabulary-autocomplete__link-data-name',
+      linkDataDescription: 'ce-vocabulary-autocomplete__link-data-description',
+      linkDataURL: 'ce-vocabulary-autocomplete__link-data-url',
     };
   }
 
@@ -226,7 +226,7 @@ export default class LinkAutocomplete {
      *
      * @type {HTMLSpanElement}
      */
-    this.nodes.toolButtonLink = Dom.make('span', LinkAutocomplete.CSS.iconWrapper, {
+    this.nodes.toolButtonLink = Dom.make('span', VocabularyAutocomplete.CSS.iconWrapper, {
       innerHTML: IconLink,
     });
     this.nodes.toolButtons.appendChild(this.nodes.toolButtonLink);
@@ -236,7 +236,7 @@ export default class LinkAutocomplete {
      *
      * @type {HTMLSpanElement}
      */
-    this.nodes.toolButtonUnlink = Dom.make('span', LinkAutocomplete.CSS.iconWrapper, {
+    this.nodes.toolButtonUnlink = Dom.make('span', VocabularyAutocomplete.CSS.iconWrapper, {
       innerHTML: IconUnlink,
     });
     this.nodes.toolButtons.appendChild(this.nodes.toolButtonUnlink);
@@ -256,7 +256,7 @@ export default class LinkAutocomplete {
      *
      * @type {HTMLDivElement}
      */
-    this.nodes.actionsWrapper = Dom.make('div', [ LinkAutocomplete.CSS.actionsWrapper ]);
+    this.nodes.actionsWrapper = Dom.make('div', [ VocabularyAutocomplete.CSS.actionsWrapper ]);
     this.toggleVisibility(this.nodes.actionsWrapper, false);
 
     /**
@@ -264,8 +264,8 @@ export default class LinkAutocomplete {
      *
      * @type {HTMLDivElement}
      */
-    this.nodes.inputWrapper = Dom.make('div', LinkAutocomplete.CSS.field);
-    this.nodes.inputField = Dom.make('input', LinkAutocomplete.CSS.fieldInput, {
+    this.nodes.inputWrapper = Dom.make('div', VocabularyAutocomplete.CSS.field);
+    this.nodes.inputField = Dom.make('input', VocabularyAutocomplete.CSS.fieldInput, {
       placeholder: this.api.i18n.t(this.isServerEnabled ? DICTIONARY.pasteOrSearch : DICTIONARY.pasteALink),
     });
 
@@ -277,7 +277,7 @@ export default class LinkAutocomplete {
      *
      * @type {HTMLDivElement}
      */
-    this.nodes.searchResults = Dom.make('div', LinkAutocomplete.CSS.foundItems);
+    this.nodes.searchResults = Dom.make('div', VocabularyAutocomplete.CSS.foundItems);
     /**
      * To improve UX we need to remove any 'selected' classes from search results
      */
@@ -285,14 +285,14 @@ export default class LinkAutocomplete {
       const searchItems = this.getSearchItems();
 
       searchItems.forEach(item => {
-        item.classList.remove(LinkAutocomplete.CSS.searchItemSelected);
+        item.classList.remove(VocabularyAutocomplete.CSS.searchItemSelected);
       });
     });
     /**
      * Enable search results click listener
      */
     this.nodes.searchResults.addEventListener('click', (event) => {
-      const closestSearchItem = event.target.closest(`.${LinkAutocomplete.CSS.searchItem}`);
+      const closestSearchItem = event.target.closest(`.${VocabularyAutocomplete.CSS.searchItem}`);
       /**
        * If click target search item is missing then do nothing
        */
@@ -322,19 +322,19 @@ export default class LinkAutocomplete {
     /**
      * Render link data block
      */
-    this.nodes.linkDataWrapper = Dom.make('div', LinkAutocomplete.CSS.linkDataWrapper);
+    this.nodes.linkDataWrapper = Dom.make('div', VocabularyAutocomplete.CSS.linkDataWrapper);
     this.toggleVisibility(this.nodes.linkDataWrapper, false);
 
-    this.nodes.linkDataTitleWrapper = Dom.make('div', LinkAutocomplete.CSS.linkDataTitleWrapper);
+    this.nodes.linkDataTitleWrapper = Dom.make('div', VocabularyAutocomplete.CSS.linkDataTitleWrapper);
     this.nodes.linkDataWrapper.appendChild(this.nodes.linkDataTitleWrapper);
     this.toggleVisibility(this.nodes.linkDataTitleWrapper, false);
 
-    this.nodes.linkDataName = Dom.make('div', LinkAutocomplete.CSS.linkDataName);
+    this.nodes.linkDataName = Dom.make('div', VocabularyAutocomplete.CSS.linkDataName);
     this.nodes.linkDataTitleWrapper.appendChild(this.nodes.linkDataName);
-    this.nodes.linkDataDescription = Dom.make('div', LinkAutocomplete.CSS.linkDataDescription);
+    this.nodes.linkDataDescription = Dom.make('div', VocabularyAutocomplete.CSS.linkDataDescription);
     this.nodes.linkDataTitleWrapper.appendChild(this.nodes.linkDataDescription);
 
-    this.nodes.linkDataURL = Dom.make('A', LinkAutocomplete.CSS.linkDataURL);
+    this.nodes.linkDataURL = Dom.make('A', VocabularyAutocomplete.CSS.linkDataURL);
     this.nodes.linkDataWrapper.appendChild(this.nodes.linkDataURL);
 
     /**
@@ -469,7 +469,7 @@ export default class LinkAutocomplete {
    * @returns {void}
    */
   toggleLoadingState(state) {
-    this.nodes.inputWrapper.classList.toggle(LinkAutocomplete.CSS.fieldLoading, state);
+    this.nodes.inputWrapper.classList.toggle(VocabularyAutocomplete.CSS.fieldLoading, state);
   }
 
   /**
@@ -504,10 +504,10 @@ export default class LinkAutocomplete {
     }
 
     if (selectedItem) {
-      selectedItem.classList.remove(LinkAutocomplete.CSS.searchItemSelected);
+      selectedItem.classList.remove(VocabularyAutocomplete.CSS.searchItemSelected);
     }
 
-    data[nextIndex].classList.add(LinkAutocomplete.CSS.searchItemSelected);
+    data[nextIndex].classList.add(VocabularyAutocomplete.CSS.searchItemSelected);
   }
 
   /**
@@ -576,7 +576,7 @@ export default class LinkAutocomplete {
    * @returns {Element[]}
    */
   getSearchItems() {
-    const nodesList = this.nodes.searchResults.querySelectorAll(`.${LinkAutocomplete.CSS.searchItem}`);
+    const nodesList = this.nodes.searchResults.querySelectorAll(`.${VocabularyAutocomplete.CSS.searchItem}`);
 
     return Array.from(nodesList);
   }
@@ -587,7 +587,7 @@ export default class LinkAutocomplete {
    * @returns {Element|null}
    */
   getSelectedItem() {
-    return this.nodes.searchResults.querySelector(`.${LinkAutocomplete.CSS.searchItemSelected}`);
+    return this.nodes.searchResults.querySelector(`.${VocabularyAutocomplete.CSS.searchItemSelected}`);
   }
 
   /**
@@ -634,12 +634,12 @@ export default class LinkAutocomplete {
      * Fill up search list by new elements
      */
     items.forEach(item => {
-      const searchItem = Dom.make('div', [ LinkAutocomplete.CSS.searchItem ]);
+      const searchItem = Dom.make('div', [ VocabularyAutocomplete.CSS.searchItem ]);
 
       /**
        * Create a name for a link
        */
-      const searchItemName = Dom.make('div', [ LinkAutocomplete.CSS.searchItemName ], {
+      const searchItemName = Dom.make('div', [ VocabularyAutocomplete.CSS.searchItemName ], {
         innerText: item.attributes.Name,
       });
 
@@ -650,7 +650,7 @@ export default class LinkAutocomplete {
        */
 
       if (item.attributes.Description) {
-        const searchItemDescription = Dom.make('div', [ LinkAutocomplete.CSS.searchItemDescription ], {
+        const searchItemDescription = Dom.make('div', [ VocabularyAutocomplete.CSS.searchItemDescription ], {
           innerText: item.attributes.Description,
         });
 
@@ -860,7 +860,7 @@ export default class LinkAutocomplete {
     /**
      * If not "isVisible" then add "hidden" class
      */
-    element.classList.toggle(LinkAutocomplete.CSS.hidden, !isVisible);
+    element.classList.toggle(VocabularyAutocomplete.CSS.hidden, !isVisible);
   }
 
   /**
@@ -904,7 +904,7 @@ export default class LinkAutocomplete {
       if (searchResponse) {
         return searchResponse.data;
       } else {
-        console.warn('Link Autocomplete: invalid response format: "success: true" expected, but got %o. Response: %o', searchResponse.success, searchResponse);
+        console.warn('Vocabulary Autocomplete: invalid response format: "success: true" expected, but got %o. Response: %o', searchResponse.success, searchResponse);
       }
     } catch (e) {
       notifier.show({

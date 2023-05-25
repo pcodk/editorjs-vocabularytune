@@ -40,9 +40,9 @@ module.exports = {
     extensions: [ '.js' ],
   },
   output: {
-    filename: 'link-autocomplete.js',
+    filename: 'vocabulary-autocomplete.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'LinkAutocomplete',
+    library: 'VocabularyAutocomplete',
     libraryTarget: 'umd',
     libraryExport: 'default',
   },
