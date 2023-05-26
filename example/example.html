@@ -80,7 +80,7 @@
        * - if true (or not specified), the order from 'tool' property will be used
        * - if an array of tool names, this order will be used
        */
-      inlineToolbar: ['bold', 'italic', 'voca'],
+      inlineToolbar: ['bold', 'italic', 'vocabulary'],
 
       /**
        * Tools list
@@ -89,13 +89,13 @@
         Header,
         NestedList,
 
-        voca: {
+        vocabulary: {
           class: VocabularyAutocomplete,
           config: {
             endpoint: 'http://localhost:1337/api/vocabularies',
-            queryParam: 'filters[Name][$containsi]'
-            // endpoint: 'http://localhost:3000/',
-            // queryParam: 'search'
+            queryParam: 'filters[Name][$containsi]',
+            // change this to the one from strapi api
+            bearerToken: 'dc24508ca6d2463c78e3528c8e1b3da132e8267b838baa130c65324b4aa1483885c1bf02134fdfd5b2b7a552c4656ac2ec9e0048207ef12b93ef129d3f5e4bea87fde6407dde1f41dfc1c7edfbeab80b3f78d6420a9718907e6984161dfd41f852e74f31081e33573a55b9288263dc1be9f75dc88366a0160a7d1f6f2d7e43be'
           }
         },
 

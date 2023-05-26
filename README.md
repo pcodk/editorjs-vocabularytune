@@ -10,6 +10,8 @@ This means that most of the code is directly from there, with a few changes that
 When working use: `yarn build:dev`.
 To run test server `yarn server` - however i would recommend using strapi directly
 
+## strapi
+
 Expected return from BE example:
 `{
     "data": [

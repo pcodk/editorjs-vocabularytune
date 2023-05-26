@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /**
  * Build styles
  */
@@ -143,7 +144,7 @@ export default class VocabularyAutocomplete {
      */
     this.searchEndpointUrl = this.config.endpoint;
     this.searchQueryParam = this.config.queryParam;
-
+    this.searchBearer = this.config.bearerToken || "";
     /**
      * Tool's nodes list
      *
@@ -317,6 +318,7 @@ export default class VocabularyAutocomplete {
       const closestSearchItem = event.target.closest(
         `.${VocabularyAutocomplete.CSS.searchItem}`
       );
+
       /**
        * If click target search item is missing then do nothing
        */
@@ -442,6 +444,40 @@ export default class VocabularyAutocomplete {
   }
 
   /**
+   *
+   */
+  processEnterKeyPressed() {
+    /**
+     * Try to get selected item
+     *
+     * @type {Element|null}
+     */
+    const selectedItem = this.getSelectedItem();
+
+    /**
+     * If any item was manually selected then process click on it
+     */
+    if (selectedItem) {
+      this.searchItemPressed(selectedItem);
+
+      return;
+    }
+
+    /**
+     * Get the first item from the search list
+     * This item exists because input href is valid
+     *
+     * @type {Element}
+     */
+    const composedItem = this.getSearchItems()[0];
+
+    /**
+     * "Press" search item
+     */
+    this.searchItemPressed(composedItem);
+  }
+
+  /**
    * Input event listener for a input field
    *
    * @param {KeyboardEvent} event — input event
@@ -497,6 +533,7 @@ export default class VocabularyAutocomplete {
       this.toggleLoadingState(true);
       try {
         const searchDataItems = await this.searchRequest(searchString);
+
         /**
          * Generate list
          */
@@ -614,6 +651,7 @@ export default class VocabularyAutocomplete {
      */
     if (!Utils.isArray(items)) {
       console.warn(DICTIONARY.invalidServerData);
+
       return;
     }
 
@@ -789,6 +827,7 @@ export default class VocabularyAutocomplete {
        * Get the nearest link tag
        */
       const parentAnchor = this.selection.findParentTag("SPAN");
+
       /**
        * Expand selection
        */
@@ -797,7 +836,8 @@ export default class VocabularyAutocomplete {
       /**
        * Remove the SPAN
        */
-      var textNode = document.createTextNode(parentAnchor.textContent);
+      const textNode = document.createTextNode(parentAnchor.textContent);
+
       parentAnchor.parentNode.replaceChild(textNode, parentAnchor);
 
       /**
@@ -838,13 +878,11 @@ export default class VocabularyAutocomplete {
 
     this.toggleVisibility(this.nodes.actionsWrapper, true);
     try {
-      var myHeaders = new Headers();
-      myHeaders.append(
-        "Authorization",
-        "Bearer dc24508ca6d2463c78e3528c8e1b3da132e8267b838baa130c65324b4aa1483885c1bf02134fdfd5b2b7a552c4656ac2ec9e0048207ef12b93ef129d3f5e4bea87fde6407dde1f41dfc1c7edfbeab80b3f78d6420a9718907e6984161dfd41f852e74f31081e33573a55b9288263dc1be9f75dc88366a0160a7d1f6f2d7e43be"
-      );
+      const myHeaders = new Headers();
 
-      var requestOptions = {
+      myHeaders.append("Authorization", `Bearer ${this.searchBearer}`);
+
+      const requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
@@ -925,13 +963,11 @@ export default class VocabularyAutocomplete {
        * Get raw search data
        */
 
-      var myHeaders = new Headers();
-      myHeaders.append(
-        "Authorization",
-        "Bearer dc24508ca6d2463c78e3528c8e1b3da132e8267b838baa130c65324b4aa1483885c1bf02134fdfd5b2b7a552c4656ac2ec9e0048207ef12b93ef129d3f5e4bea87fde6407dde1f41dfc1c7edfbeab80b3f78d6420a9718907e6984161dfd41f852e74f31081e33573a55b9288263dc1be9f75dc88366a0160a7d1f6f2d7e43be"
-      );
+      const myHeaders = new Headers();
 
-      var requestOptions = {
+      myHeaders.append("Authorization", `Bearer ${this.searchBearer}`);
+
+      const requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
