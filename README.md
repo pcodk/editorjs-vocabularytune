@@ -7,13 +7,37 @@ This means that most of the code is directly from there, with a few changes that
 
 ## To run
 
-When working use: `yarn build:dev`.
+When working use: `yarn build:dev`.  
 To run test server `yarn server` - however i would recommend using strapi directly
+
+# Usage
+
+```js
+import VocabularyAutocomplete from "editorjs-vocabularytune";
+
+const editor = EditorJS({
+  tools: {
+    // .....
+    vocabulary: {
+      class: VocabularyAutocomplete,
+      config: {
+        endpoint: "http://localhost:1337/api/vocabularies",
+        queryParam: "filters[Name][$containsi]",
+        // change this to the one from strapi api
+        bearerToken: "dc240....and so on",
+      },
+    },
+    // .....
+  },
+});
+```
 
 ## strapi
 
 Expected return from BE example:
-`{
+
+```js
+{
     "data": [
         {
             "id": 1,
@@ -46,4 +70,5 @@ Expected return from BE example:
             }
         }
     ],
- }`
+ }
+```
