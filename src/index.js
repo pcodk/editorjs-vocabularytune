@@ -1,19 +1,19 @@
 /**
  * Build styles
  */
-import './../styles/index.pcss';
+import "./../styles/index.pcss";
 
 /**
  * Import deps
  */
-import notifier from 'codex-notifier';
-import { IconUnlink, IconLink } from '@codexteam/icons';
+import notifier from "codex-notifier";
+import { IconUnlink, IconLink } from "@codexteam/icons";
 /**
  * Import functions
  */
-import * as Dom from './utils/dom';
-import { SelectionUtils } from './utils/selection';
-import { Utils } from './utils/utils';
+import * as Dom from "./utils/dom";
+import { SelectionUtils } from "./utils/selection";
+import { Utils } from "./utils/utils";
 
 /**
  * @typedef {object} SearchItemData
@@ -23,11 +23,11 @@ import { Utils } from './utils/utils';
  */
 
 const DICTIONARY = {
-  pasteOrSearch: 'Paste or search',
-  pasteALink: 'Paste a link',
-  searchRequestError: 'Cannot process search request because of',
-  invalidServerData: 'Server responded with invalid data',
-  invalidUrl: 'Link URL is invalid',
+  pasteOrSearch: "Paste or search",
+  pasteALink: "Paste a link",
+  searchRequestError: "Cannot process search request because of",
+  invalidServerData: "Server responded with invalid data",
+  invalidUrl: "Link URL is invalid",
 };
 
 /**
@@ -46,8 +46,8 @@ const DEBOUNCE_TIMEOUT = 250;
  * @enum {NavDirection}
  */
 const NavDirection = {
-  Next: 'Next',
-  Previous: 'Previous',
+  Next: "Next",
+  Previous: "Previous",
 };
 
 /**
@@ -81,7 +81,7 @@ export default class VocabularyAutocomplete {
    * @returns {string}
    */
   static get title() {
-    return 'Vocabulary Autocomplete';
+    return "Vocabulary Autocomplete";
   }
 
   /**
@@ -90,7 +90,7 @@ export default class VocabularyAutocomplete {
    * @returns {string}
    */
   get shortcut() {
-    return 'CMD+G';
+    return "CMD+G";
   }
 
   /**
@@ -100,28 +100,30 @@ export default class VocabularyAutocomplete {
    */
   static get CSS() {
     return {
-      iconWrapper: 'ce-vocabulary-autocomplete__icon-wrapper',
+      iconWrapper: "ce-vocabulary-autocomplete__icon-wrapper",
 
-      hidden: 'ce-vocabulary-autocomplete__hidden',
+      hidden: "ce-vocabulary-autocomplete__hidden",
 
-      actionsWrapper: 'ce-vocabulary-autocomplete__actions-wrapper',
+      actionsWrapper: "ce-vocabulary-autocomplete__actions-wrapper",
 
-      field: 'ce-vocabulary-autocomplete__field',
-      fieldLoading: 'ce-vocabulary-autocomplete__field--loading',
-      fieldInput: 'ce-vocabulary-autocomplete__field-input',
+      field: "ce-vocabulary-autocomplete__field",
+      fieldLoading: "ce-vocabulary-autocomplete__field--loading",
+      fieldInput: "ce-vocabulary-autocomplete__field-input",
 
-      foundItems: 'ce-vocabulary-autocomplete__items',
+      foundItems: "ce-vocabulary-autocomplete__items",
 
-      searchItem: 'ce-vocabulary-autocomplete__search-item',
-      searchItemSelected: 'ce-vocabulary-autocomplete__search-item--selected',
-      searchItemName: 'ce-vocabulary-autocomplete__search-item-name',
-      searchItemDescription: 'ce-vocabulary-autocomplete__search-item-description',
+      searchItem: "ce-vocabulary-autocomplete__search-item",
+      searchItemSelected: "ce-vocabulary-autocomplete__search-item--selected",
+      searchItemName: "ce-vocabulary-autocomplete__search-item-name",
+      searchItemDescription:
+        "ce-vocabulary-autocomplete__search-item-description",
 
-      linkDataWrapper: 'ce-vocabulary-autocomplete__link-data-wrapper',
-      linkDataTitleWrapper: 'ce-vocabulary-autocomplete__link-data-title-wrapper',
-      linkDataName: 'ce-vocabulary-autocomplete__link-data-name',
-      linkDataDescription: 'ce-vocabulary-autocomplete__link-data-description',
-      linkDataURL: 'ce-vocabulary-autocomplete__link-data-url',
+      linkDataWrapper: "ce-vocabulary-autocomplete__link-data-wrapper",
+      linkDataTitleWrapper:
+        "ce-vocabulary-autocomplete__link-data-title-wrapper",
+      linkDataName: "ce-vocabulary-autocomplete__link-data-name",
+      linkDataDescription: "ce-vocabulary-autocomplete__link-data-description",
+      linkDataURL: "ce-vocabulary-autocomplete__link-data-url",
     };
   }
 
@@ -191,7 +193,7 @@ export default class VocabularyAutocomplete {
     /**
      * Define tag name for a link element
      */
-    this.tagName = 'A';
+    this.tagName = "SPAN";
 
     /**
      * Key codes
@@ -219,16 +221,23 @@ export default class VocabularyAutocomplete {
      *
      * @type {HTMLButtonElement}
      */
-    this.nodes.toolButtons = Dom.make('button', this.api.styles.inlineToolButton);
+    this.nodes.toolButtons = Dom.make(
+      "button",
+      this.api.styles.inlineToolButton
+    );
 
     /**
      * Create Link button
      *
      * @type {HTMLSpanElement}
      */
-    this.nodes.toolButtonLink = Dom.make('span', VocabularyAutocomplete.CSS.iconWrapper, {
-      innerHTML: IconLink,
-    });
+    this.nodes.toolButtonLink = Dom.make(
+      "span",
+      VocabularyAutocomplete.CSS.iconWrapper,
+      {
+        innerHTML: IconLink,
+      }
+    );
     this.nodes.toolButtons.appendChild(this.nodes.toolButtonLink);
 
     /**
@@ -236,9 +245,13 @@ export default class VocabularyAutocomplete {
      *
      * @type {HTMLSpanElement}
      */
-    this.nodes.toolButtonUnlink = Dom.make('span', VocabularyAutocomplete.CSS.iconWrapper, {
-      innerHTML: IconUnlink,
-    });
+    this.nodes.toolButtonUnlink = Dom.make(
+      "span",
+      VocabularyAutocomplete.CSS.iconWrapper,
+      {
+        innerHTML: IconUnlink,
+      }
+    );
     this.nodes.toolButtons.appendChild(this.nodes.toolButtonUnlink);
     this.toggleVisibility(this.nodes.toolButtonUnlink, false);
 
@@ -256,7 +269,9 @@ export default class VocabularyAutocomplete {
      *
      * @type {HTMLDivElement}
      */
-    this.nodes.actionsWrapper = Dom.make('div', [ VocabularyAutocomplete.CSS.actionsWrapper ]);
+    this.nodes.actionsWrapper = Dom.make("div", [
+      VocabularyAutocomplete.CSS.actionsWrapper,
+    ]);
     this.toggleVisibility(this.nodes.actionsWrapper, false);
 
     /**
@@ -264,10 +279,18 @@ export default class VocabularyAutocomplete {
      *
      * @type {HTMLDivElement}
      */
-    this.nodes.inputWrapper = Dom.make('div', VocabularyAutocomplete.CSS.field);
-    this.nodes.inputField = Dom.make('input', VocabularyAutocomplete.CSS.fieldInput, {
-      placeholder: this.api.i18n.t(this.isServerEnabled ? DICTIONARY.pasteOrSearch : DICTIONARY.pasteALink),
-    });
+    this.nodes.inputWrapper = Dom.make("div", VocabularyAutocomplete.CSS.field);
+    this.nodes.inputField = Dom.make(
+      "input",
+      VocabularyAutocomplete.CSS.fieldInput,
+      {
+        placeholder: this.api.i18n.t(
+          this.isServerEnabled
+            ? DICTIONARY.pasteOrSearch
+            : DICTIONARY.pasteALink
+        ),
+      }
+    );
 
     this.nodes.inputWrapper.appendChild(this.nodes.inputField);
     this.toggleVisibility(this.nodes.inputWrapper, false);
@@ -277,22 +300,27 @@ export default class VocabularyAutocomplete {
      *
      * @type {HTMLDivElement}
      */
-    this.nodes.searchResults = Dom.make('div', VocabularyAutocomplete.CSS.foundItems);
+    this.nodes.searchResults = Dom.make(
+      "div",
+      VocabularyAutocomplete.CSS.foundItems
+    );
     /**
      * To improve UX we need to remove any 'selected' classes from search results
      */
-    this.nodes.searchResults.addEventListener('mouseenter', () => {
+    this.nodes.searchResults.addEventListener("mouseenter", () => {
       const searchItems = this.getSearchItems();
 
-      searchItems.forEach(item => {
+      searchItems.forEach((item) => {
         item.classList.remove(VocabularyAutocomplete.CSS.searchItemSelected);
       });
     });
     /**
      * Enable search results click listener
      */
-    this.nodes.searchResults.addEventListener('click', (event) => {
-      const closestSearchItem = event.target.closest(`.${VocabularyAutocomplete.CSS.searchItem}`);
+    this.nodes.searchResults.addEventListener("click", (event) => {
+      const closestSearchItem = event.target.closest(
+        `.${VocabularyAutocomplete.CSS.searchItem}`
+      );
       /**
        * If click target search item is missing then do nothing
        */
@@ -312,29 +340,50 @@ export default class VocabularyAutocomplete {
     /**
      * Listen to pressed enter key or up and down arrows
      */
-    this.nodes.inputField.addEventListener('keydown', this.fieldKeydownHandler.bind(this));
+    this.nodes.inputField.addEventListener(
+      "keydown",
+      this.fieldKeydownHandler.bind(this)
+    );
 
     /**
      * Listen to input
      */
-    this.nodes.inputField.addEventListener('input', this.fieldInputHandler.bind(this));
+    this.nodes.inputField.addEventListener(
+      "input",
+      this.fieldInputHandler.bind(this)
+    );
 
     /**
      * Render link data block
      */
-    this.nodes.linkDataWrapper = Dom.make('div', VocabularyAutocomplete.CSS.linkDataWrapper);
+    this.nodes.linkDataWrapper = Dom.make(
+      "div",
+      VocabularyAutocomplete.CSS.linkDataWrapper
+    );
     this.toggleVisibility(this.nodes.linkDataWrapper, false);
 
-    this.nodes.linkDataTitleWrapper = Dom.make('div', VocabularyAutocomplete.CSS.linkDataTitleWrapper);
+    this.nodes.linkDataTitleWrapper = Dom.make(
+      "div",
+      VocabularyAutocomplete.CSS.linkDataTitleWrapper
+    );
     this.nodes.linkDataWrapper.appendChild(this.nodes.linkDataTitleWrapper);
     this.toggleVisibility(this.nodes.linkDataTitleWrapper, false);
 
-    this.nodes.linkDataName = Dom.make('div', VocabularyAutocomplete.CSS.linkDataName);
+    this.nodes.linkDataName = Dom.make(
+      "div",
+      VocabularyAutocomplete.CSS.linkDataName
+    );
     this.nodes.linkDataTitleWrapper.appendChild(this.nodes.linkDataName);
-    this.nodes.linkDataDescription = Dom.make('div', VocabularyAutocomplete.CSS.linkDataDescription);
+    this.nodes.linkDataDescription = Dom.make(
+      "div",
+      VocabularyAutocomplete.CSS.linkDataDescription
+    );
     this.nodes.linkDataTitleWrapper.appendChild(this.nodes.linkDataDescription);
 
-    this.nodes.linkDataURL = Dom.make('A', VocabularyAutocomplete.CSS.linkDataURL);
+    this.nodes.linkDataURL = Dom.make(
+      "SPAN",
+      VocabularyAutocomplete.CSS.linkDataURL
+    );
     this.nodes.linkDataWrapper.appendChild(this.nodes.linkDataURL);
 
     /**
@@ -378,7 +427,10 @@ export default class VocabularyAutocomplete {
        * Handle arrow keys
        */
       case isArrowKey: {
-        const direction = event.keyCode === this.KEYS.DOWN ? NavDirection.Next : NavDirection.Previous;
+        const direction =
+          event.keyCode === this.KEYS.DOWN
+            ? NavDirection.Next
+            : NavDirection.Previous;
 
         this.navigate(direction);
         break;
@@ -423,9 +475,11 @@ export default class VocabularyAutocomplete {
      * If a valid link was entered then show only one list item with a link href.
      */
     if (Utils.isUrl(searchString)) {
-      this.generateSearchList([ {
-        href: searchString,
-      } ]);
+      this.generateSearchList([
+        {
+          href: searchString,
+        },
+      ]);
 
       return;
     }
@@ -454,7 +508,7 @@ export default class VocabularyAutocomplete {
       } catch (e) {
         notifier.show({
           message: `${DICTIONARY.searchRequestError} "${e.message}"`,
-          style: 'error',
+          style: "error",
         });
       }
 
@@ -469,7 +523,10 @@ export default class VocabularyAutocomplete {
    * @returns {void}
    */
   toggleLoadingState(state) {
-    this.nodes.inputWrapper.classList.toggle(VocabularyAutocomplete.CSS.fieldLoading, state);
+    this.nodes.inputWrapper.classList.toggle(
+      VocabularyAutocomplete.CSS.fieldLoading,
+      state
+    );
   }
 
   /**
@@ -504,70 +561,14 @@ export default class VocabularyAutocomplete {
     }
 
     if (selectedItem) {
-      selectedItem.classList.remove(VocabularyAutocomplete.CSS.searchItemSelected);
+      selectedItem.classList.remove(
+        VocabularyAutocomplete.CSS.searchItemSelected
+      );
     }
 
-    data[nextIndex].classList.add(VocabularyAutocomplete.CSS.searchItemSelected);
-  }
-
-  /**
-   * Process enter key pressing
-   *
-   * @returns {void}
-   */
-  processEnterKeyPressed() {
-    /**
-     * Try to get selected item
-     *
-     * @type {Element|null}
-     */
-    const selectedItem = this.getSelectedItem();
-
-    /**
-     * If any item was manually selected then process click on it
-     */
-    if (selectedItem) {
-      this.searchItemPressed(selectedItem);
-
-      return;
-    }
-
-    /**
-     * Get input field value
-     */
-    const href = this.nodes.inputField.value;
-
-    /**
-     * If input field is empty then do nothing
-     */
-    if (!href || !href.trim()) {
-      return;
-    }
-
-    /**
-     * If input is not a valid url then show an error
-     */
-    if (!Utils.isUrl(href)) {
-      notifier.show({
-        message: DICTIONARY.invalidUrl,
-        style: 'error',
-      });
-
-      return;
-    }
-
-    /**
-     * Get the first item from the search list
-     * This item exists because input href is valid
-     *
-     * @type {Element}
-     */
-    const composedItem = this.getSearchItems()[0];
-
-    /**
-     * "Press" search item
-     */
-    this.searchItemPressed(composedItem);
+    data[nextIndex].classList.add(
+      VocabularyAutocomplete.CSS.searchItemSelected
+    );
   }
 
   /**
@@ -576,7 +577,9 @@ export default class VocabularyAutocomplete {
    * @returns {Element[]}
    */
   getSearchItems() {
-    const nodesList = this.nodes.searchResults.querySelectorAll(`.${VocabularyAutocomplete.CSS.searchItem}`);
+    const nodesList = this.nodes.searchResults.querySelectorAll(
+      `.${VocabularyAutocomplete.CSS.searchItem}`
+    );
 
     return Array.from(nodesList);
   }
@@ -587,7 +590,9 @@ export default class VocabularyAutocomplete {
    * @returns {Element|null}
    */
   getSelectedItem() {
-    return this.nodes.searchResults.querySelector(`.${VocabularyAutocomplete.CSS.searchItemSelected}`);
+    return this.nodes.searchResults.querySelector(
+      `.${VocabularyAutocomplete.CSS.searchItemSelected}`
+    );
   }
 
   /**
@@ -596,7 +601,7 @@ export default class VocabularyAutocomplete {
    * @returns {void}
    */
   clearSearchList() {
-    this.nodes.searchResults.innerHTML = '';
+    this.nodes.searchResults.innerHTML = "";
   }
 
   /**
@@ -617,7 +622,7 @@ export default class VocabularyAutocomplete {
     if (!Utils.isArray(items)) {
       notifier.show({
         message: DICTIONARY.invalidServerData,
-        style: 'error',
+        style: "error",
       });
 
       return;
@@ -633,15 +638,21 @@ export default class VocabularyAutocomplete {
     /**
      * Fill up search list by new elements
      */
-    items.forEach(item => {
-      const searchItem = Dom.make('div', [ VocabularyAutocomplete.CSS.searchItem ]);
+    items.forEach((item) => {
+      const searchItem = Dom.make("div", [
+        VocabularyAutocomplete.CSS.searchItem,
+      ]);
 
       /**
        * Create a name for a link
        */
-      const searchItemName = Dom.make('div', [ VocabularyAutocomplete.CSS.searchItemName ], {
-        innerText: item.attributes.Name,
-      });
+      const searchItemName = Dom.make(
+        "div",
+        [VocabularyAutocomplete.CSS.searchItemName],
+        {
+          innerText: item.attributes.Name,
+        }
+      );
 
       searchItem.appendChild(searchItemName);
 
@@ -650,9 +661,13 @@ export default class VocabularyAutocomplete {
        */
 
       if (item.attributes.Description) {
-        const searchItemDescription = Dom.make('div', [ VocabularyAutocomplete.CSS.searchItemDescription ], {
-          innerText: item.attributes.Description,
-        });
+        const searchItemDescription = Dom.make(
+          "div",
+          [VocabularyAutocomplete.CSS.searchItemDescription],
+          {
+            innerText: item.attributes.Description,
+          }
+        );
 
         searchItem.appendChild(searchItemDescription);
       }
@@ -660,7 +675,7 @@ export default class VocabularyAutocomplete {
       /**
        * Save all keys to item's dataset
        */
-      Object.keys(item.attributes).forEach(key => {
+      Object.keys(item.attributes).forEach((key) => {
         searchItem.dataset[key] = item.attributes[key];
       });
 
@@ -684,14 +699,9 @@ export default class VocabularyAutocomplete {
     /**
      * If no useful dataset info was given then do nothing
      */
-    if (!element.dataset || !element.dataset['id']) {
+    if (!element.dataset || !element.dataset["id"]) {
       return;
     }
-
-    /**
-     * Get link's href
-     */
-    const href = element.dataset['href'];
 
     /**
      * Restore origin selection
@@ -702,30 +712,47 @@ export default class VocabularyAutocomplete {
     /**
      * Create a link by default browser's function
      */
-    document.execCommand('createLink', false, href);
+    // document.execCommand('createLink', false, href);
+
+    const selectedText = window.getSelection().toString();
+
+    // Create a span element
+    const span = document.createElement("span");
+
+    span.textContent = selectedText;
+
+    // Apply any desired styles to the span element
+    span.style.borderBottom = "1px dotted #000";
+
+    // Replace the selected text with the span element
+    const range = window.getSelection().getRangeAt(0);
+
+    range.deleteContents();
+    range.insertNode(span);
 
     /**
      * Get this link element
      */
-    const newLink = this.selection.findParentTag(this.tagName);
 
     /**
      * Fill up link element's dataset
      */
-    Object.keys(element.dataset).forEach(key => {
-      if (key === 'href') {
+    Object.keys(element.dataset).forEach((key) => {
+      if (key !== "id") {
         return;
       }
-
-      newLink.dataset[key] = element.dataset[key];
+      // todo clean up here
+      span.dataset[key] = element.dataset[key];
     });
+
+    span.dataset.type = "vocabulary_element";
 
     /**
      * Collapse selection and close toolbar
      */
     this.selection.collapseToEnd();
     this.api.inlineToolbar.close();
-  };
+  }
 
   /**
    * Handle clicks on the Inline Toolbar icon
@@ -749,7 +776,9 @@ export default class VocabularyAutocomplete {
      *
      * @type {boolean}
      */
-    const isLinkSelected = this.nodes.toolButtonUnlink.classList.contains(this.api.styles.inlineToolButtonActive);
+    const isLinkSelected = this.nodes.toolButtonUnlink.classList.contains(
+      this.api.styles.inlineToolButtonActive
+    );
 
     /**
      * Create a fake selection
@@ -770,22 +799,22 @@ export default class VocabularyAutocomplete {
       /**
        * Get the nearest link tag
        */
-      const parentAnchor = this.selection.findParentTag('A');
-
+      const parentAnchor = this.selection.findParentTag("SPAN");
       /**
        * Expand selection
        */
       this.selection.expandToTag(parentAnchor);
 
       /**
-       * Remove the link
+       * Remove the SPAN
        */
-      document.execCommand('unlink');
+      var textNode = document.createTextNode(parentAnchor.textContent);
+      parentAnchor.parentNode.replaceChild(textNode, parentAnchor);
 
       /**
        * Remove fake selection and close toolbar
        */
-      this.selection.removeFakeBackground();
+      // this.selection.removeFakeBackground();
       this.api.inlineToolbar.close();
     }
   }
@@ -796,7 +825,7 @@ export default class VocabularyAutocomplete {
    * @param {Selection} selection — selection to be passed from Core
    * @returns {void}
    */
-  checkState(selection) {
+  async checkState(selection) {
     const text = selection.anchorNode;
 
     /**
@@ -819,34 +848,56 @@ export default class VocabularyAutocomplete {
     }
 
     this.toggleVisibility(this.nodes.actionsWrapper, true);
+    try {
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        "Bearer dc24508ca6d2463c78e3528c8e1b3da132e8267b838baa130c65324b4aa1483885c1bf02134fdfd5b2b7a552c4656ac2ec9e0048207ef12b93ef129d3f5e4bea87fde6407dde1f41dfc1c7edfbeab80b3f78d6420a9718907e6984161dfd41f852e74f31081e33573a55b9288263dc1be9f75dc88366a0160a7d1f6f2d7e43be"
+      );
 
-    /**
-     * Fill up link data block
-     */
-    this.nodes.linkDataName.innerText = parentA.dataset.Name || '';
-    this.nodes.linkDataDescription.innerText = parentA.dataset.Description || '';
-    this.nodes.linkDataURL.innerText = parentA.href || '';
-    this.nodes.linkDataURL.href = parentA.href || '';
-    this.nodes.linkDataURL.target = '_blank';
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
 
-    /**
-     * If link has name or description then show title wrapper
-     */
-    if (parentA.dataset.Name || parentA.dataset.Description) {
-      this.toggleVisibility(this.nodes.linkDataTitleWrapper, true);
+      // todo
+      const searchResponseRaw = await fetch(
+        `${this.searchEndpointUrl}/${parentA.dataset.id}`,
+        requestOptions
+      );
+      const { data } = await searchResponseRaw.json();
+
+      /**
+       * Fill up link data block
+       */
+      this.nodes.linkDataName.innerText = data.attributes.Name || "";
+      this.nodes.linkDataDescription.innerText =
+        data.attributes.Description || "";
+
+      /**
+       * If link has name or description then show title wrapper
+       */
+      if (data.attributes.Name || data.attributes.Description) {
+        this.toggleVisibility(this.nodes.linkDataTitleWrapper, true);
+      }
+
+      /**
+       * Show link data block
+       */
+      this.toggleVisibility(this.nodes.linkDataWrapper, true);
+
+      /**
+       * Show 'unlink' icon
+       */
+      this.toggleVisibility(this.nodes.toolButtonLink, false);
+      this.toggleVisibility(this.nodes.toolButtonUnlink, true);
+      this.nodes.toolButtonUnlink.classList.add(
+        this.api.styles.inlineToolButtonActive
+      );
+    } catch (e) {
+      console.warn(e);
     }
-
-    /**
-     * Show link data block
-     */
-    this.toggleVisibility(this.nodes.linkDataWrapper, true);
-
-    /**
-     * Show 'unlink' icon
-     */
-    this.toggleVisibility(this.nodes.toolButtonLink, false);
-    this.toggleVisibility(this.nodes.toolButtonUnlink, true);
-    this.nodes.toolButtonUnlink.classList.add(this.api.styles.inlineToolButtonActive);
   }
 
   /**
@@ -876,7 +927,9 @@ export default class VocabularyAutocomplete {
      *
      * @type {string}
      */
-    const queryString = new URLSearchParams({ [this.searchQueryParam]: searchString }).toString();
+    const queryString = new URLSearchParams({
+      [this.searchQueryParam]: searchString,
+    }).toString();
 
     try {
       /**
@@ -894,7 +947,10 @@ export default class VocabularyAutocomplete {
         headers: myHeaders,
         redirect: "follow",
       };
-      const searchResponseRaw = await fetch(`${this.searchEndpointUrl}?${queryString}`, requestOptions);
+      const searchResponseRaw = await fetch(
+        `${this.searchEndpointUrl}?${queryString}`,
+        requestOptions
+      );
 
       /**
        * Get JSON decoded data
@@ -904,12 +960,16 @@ export default class VocabularyAutocomplete {
       if (searchResponse) {
         return searchResponse.data;
       } else {
-        console.warn('Vocabulary Autocomplete: invalid response format: "success: true" expected, but got %o. Response: %o', searchResponse.success, searchResponse);
+        console.warn(
+          'Vocabulary Autocomplete: invalid response format: "success: true" expected, but got %o. Response: %o',
+          searchResponse.success,
+          searchResponse
+        );
       }
     } catch (e) {
       notifier.show({
         message: `${DICTIONARY.searchRequestError} "${e.message}"`,
-        style: 'error',
+        style: "error",
       });
     }
 
