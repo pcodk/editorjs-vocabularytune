@@ -2,12 +2,8 @@
  * Build styles
  */
 import "./../styles/index.pcss";
+import tooltipIcon from "./assets/tooltip.svg";
 
-/**
- * Import deps
- */
-import notifier from "codex-notifier";
-import { IconUnlink, IconLink } from "@codexteam/icons";
 /**
  * Import functions
  */
@@ -27,7 +23,7 @@ const DICTIONARY = {
   pasteALink: "Paste a link",
   searchRequestError: "Cannot process search request because of",
   invalidServerData: "Server responded with invalid data",
-  invalidUrl: "Link URL is invalid",
+  invalidUrl: "URL is invalid",
 };
 
 /**
@@ -235,7 +231,7 @@ export default class VocabularyAutocomplete {
       "span",
       VocabularyAutocomplete.CSS.iconWrapper,
       {
-        innerHTML: IconLink,
+        innerHTML: tooltipIcon,
       }
     );
     this.nodes.toolButtons.appendChild(this.nodes.toolButtonLink);
@@ -249,7 +245,7 @@ export default class VocabularyAutocomplete {
       "span",
       VocabularyAutocomplete.CSS.iconWrapper,
       {
-        innerHTML: IconUnlink,
+        innerHTML: tooltipIcon,
       }
     );
     this.nodes.toolButtons.appendChild(this.nodes.toolButtonUnlink);
@@ -506,10 +502,7 @@ export default class VocabularyAutocomplete {
          */
         this.generateSearchList(searchDataItems);
       } catch (e) {
-        notifier.show({
-          message: `${DICTIONARY.searchRequestError} "${e.message}"`,
-          style: "error",
-        });
+        console.warn("VocabularyAutocomplete", e);
       }
 
       this.toggleLoadingState(false);
@@ -620,11 +613,7 @@ export default class VocabularyAutocomplete {
      * If items data is not an array
      */
     if (!Utils.isArray(items)) {
-      notifier.show({
-        message: DICTIONARY.invalidServerData,
-        style: "error",
-      });
-
+      console.warn(DICTIONARY.invalidServerData);
       return;
     }
 
@@ -967,10 +956,7 @@ export default class VocabularyAutocomplete {
         );
       }
     } catch (e) {
-      notifier.show({
-        message: `${DICTIONARY.searchRequestError} "${e.message}"`,
-        style: "error",
-      });
+      console.warn("VocabularyAutocomplete", e);
     }
 
     return [];

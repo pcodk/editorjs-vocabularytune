@@ -20,9 +20,6 @@ app.get("/", (req, res) => {
     data: [
       {
         attributes: {
-          href:
-            `https://codex.so/` +
-            `${searchString} first search item`.replace(/([^a-zA-Z0-9])/g, "-"),
           Name: `${searchString} first search item`,
           Description: "Desc for the first item",
           id: "873acc61-73de-40cb-b430-e20da97a6b2e",
@@ -30,12 +27,6 @@ app.get("/", (req, res) => {
       },
       {
         attributes: {
-          href:
-            `https://codex.so/` +
-            `${searchString} another one search item`.replace(
-              /([^a-zA-Z0-9])/g,
-              "-"
-            ),
           Name: `${searchString} another one search item`,
           Description: "Desc for the second item",
           id: "873acc61-73de-40cb-b430-e20da97a6b2e",
@@ -43,9 +34,6 @@ app.get("/", (req, res) => {
       },
       {
         attributes: {
-          href:
-            `https://codex.so/` +
-            `${searchString} third item`.replace(/([^a-zA-Z0-9])/g, "-"),
           Name: `${searchString} third item`,
           Description: "Desc for the third item",
           id: "873acc61-73de-40cb-b430-e20da97a6b2e",
