@@ -20,7 +20,7 @@ import { Utils } from "./utils/utils";
  */
 
 const DICTIONARY = {
-  pasteOrSearch: "Paste or search",
+  pasteOrSearch: "Search for Vocabulary item",
   pasteALink: "Paste a link",
   searchRequestError: "Cannot process search request because of",
   invalidServerData: "Server responded with invalid data",
